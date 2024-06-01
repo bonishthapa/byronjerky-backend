@@ -24,7 +24,7 @@ Please overwrite this method as per need."
 
         try:
             method_name = "can_{}".format(view.action or request.method.lower())
-            return not not getattr(obj, method_name)(view.user)
+            return not not getattr(obj, method_name)(view.request.user)
         except AttributeError as e:
             print(e)
             raise BaseException("Please implement {}.{}.".format(model, method_name))

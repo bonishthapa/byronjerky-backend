@@ -8,6 +8,7 @@ from django.db import models
 from core.models import Config
 from helpers.models import BaseModel
 from helpers.tasks import send_email
+from permission.models import UserRole
 
 
 class UserManager(BaseUserManager):
@@ -114,3 +115,9 @@ class Customer(BaseModel):
     @property
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    def can_retrieve(self, user):
+        return user.iss(UserRole.get_admin_roles())
+
+    def can_partial_update(self, user):
+        return user.iss(UserRole.get_admin_roles())

@@ -16,6 +16,10 @@ class UserRole(Enum):
         enum_obj = getattr(cls, key, None)
         return enum_obj.value
 
+    @classmethod
+    def get_admin_roles(cls):
+        return [cls.ADMIN.value]
+
 
 class Permission(BaseModel):
     name = models.CharField(max_length=100)

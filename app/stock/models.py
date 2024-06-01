@@ -1,6 +1,7 @@
 from django.db import models
 
 from helpers.models import BaseModel
+from permission.models import UserRole
 # Create your models here.
 
 
@@ -16,6 +17,12 @@ class Product(BaseModel):
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
+    def can_retrieve(self, user):
+        return user.iss(UserRole.get_admin_roles())
+
+    def can_partial_update(self, user):
+        return user.iss(UserRole.get_admin_roles())
 
 
 class Order(BaseModel):
@@ -34,3 +41,9 @@ class Order(BaseModel):
     class Meta:
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
+    
+    def can_retrieve(self, user):
+        return user.iss(UserRole.get_admin_roles())
+
+    def can_partial_update(self, user):
+        return user.iss(UserRole.get_admin_roles())
