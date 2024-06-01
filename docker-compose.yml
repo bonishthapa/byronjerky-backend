@@ -1,0 +1,60 @@
+version: '3'
+services:
+  app:
+    container_name: genesis_app  # Custom container name
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    env_file:
+      - .env  # Read environment variables from .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./app:/app 
+  db:
+    container_name: genesis_db  # Custom container name
+    image: postgres:latest
+    env_file:
+      - .env  # Read environment variables from .env
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data  # Use a named volume for data persistence
+
+  redis:
+    container_name: genesis_redis  # Custom container name
+    image: redis:latest
+    env_file:
+      - .env  # Read environment variables from .env
+
+  rabbitmq:
+    container_name: genesis_rabbitmq  # Custom container name
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"  # RabbitMQ management console
+      - "5672:5672"    # AMQP
+    env_file:
+      - .env  # Read environment variables from .env
+
+  nginx:
+    container_name: genesis_nginx  # Custom container name
+    image: nginx:latest
+    ports:
+      - "8888:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d  # Mount Nginx configuration
+    depends_on:
+      - app
+    env_file:
+      - .env  # Read environment variables from .env
+
+volumes:
+  postgres_data:  # Define a named volume for PostgreSQL data

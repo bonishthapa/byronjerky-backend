@@ -1,0 +1,4 @@
+{% load i18n %}
+<div class="form-group">
+    {{ spec.title }} : <input class="form-control vDateField ml-2 mt-2" type="date" value="{{ spec.value|default_if_none:'' }}" name="{{ spec.parameter_name }}" />
+</div>
