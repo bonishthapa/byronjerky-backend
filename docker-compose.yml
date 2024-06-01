@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    container_name: genesis_app  # Custom container name
+    container_name: byronjerky_app  # Custom container name
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,7 +21,7 @@ services:
     volumes:
       - ./app:/app 
   db:
-    container_name: genesis_db  # Custom container name
+    container_name: byronjerky_db  # Custom container name
     image: postgres:latest
     env_file:
       - .env  # Read environment variables from .env
@@ -30,13 +30,13 @@ services:
       - postgres_data:/var/lib/postgresql/data  # Use a named volume for data persistence
 
   redis:
-    container_name: genesis_redis  # Custom container name
+    container_name: byronjerky_redis  # Custom container name
     image: redis:latest
     env_file:
       - .env  # Read environment variables from .env
 
   rabbitmq:
-    container_name: genesis_rabbitmq  # Custom container name
+    container_name: byronjerky_rabbitmq  # Custom container name
     image: "rabbitmq:3-management"
     ports:
       - "15672:15672"  # RabbitMQ management console
@@ -45,7 +45,7 @@ services:
       - .env  # Read environment variables from .env
 
   nginx:
-    container_name: genesis_nginx  # Custom container name
+    container_name: byronjerky_nginx  # Custom container name
     image: nginx:latest
     ports:
       - "8888:80"

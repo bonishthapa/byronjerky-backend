@@ -49,7 +49,7 @@ unversioned_patterns = [
     #     name="schema-swagger-ui",
     # ),
     # path("genesis/redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    path("genesis/", admin.site.urls),
+    path("byronjerky/", admin.site.urls),
     path("", index_view),
 ]
 
