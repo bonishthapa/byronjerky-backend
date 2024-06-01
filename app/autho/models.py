@@ -121,3 +121,6 @@ class Customer(BaseModel):
 
     def can_partial_update(self, user):
         return user.iss(UserRole.get_admin_roles())
+
+    def can_destory(self, user):
+        return user.iss(UserRole.get_admin_roles())

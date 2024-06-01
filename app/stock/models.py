@@ -24,6 +24,9 @@ class Product(BaseModel):
     def can_partial_update(self, user):
         return user.iss(UserRole.get_admin_roles())
 
+    def can_destory(self, user):
+        return user.iss(UserRole.get_admin_roles())
+
 
 class Order(BaseModel):
     customer = models.ForeignKey("autho.Customer", on_delete=models.CASCADE, related_name='orders')
@@ -41,9 +44,12 @@ class Order(BaseModel):
     class Meta:
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
-    
+
     def can_retrieve(self, user):
         return user.iss(UserRole.get_admin_roles())
 
     def can_partial_update(self, user):
+        return user.iss(UserRole.get_admin_roles())
+
+    def can_destory(self, user):
         return user.iss(UserRole.get_admin_roles())
