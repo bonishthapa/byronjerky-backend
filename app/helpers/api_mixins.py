@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from permission.permission_mixins import GBasePermission
 
@@ -33,6 +34,17 @@ class BaseListMixin(BaseAPIMixin):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return self.api_success_response(serializer.data)
+
+    @action(methods=["get"], detail=False)
+    def all(self, request, *args, **kwargs):
+        if hasattr(self, "filterset_class"):
+            queryset = self.filter_queryset(self.get_queryset())
+        else:
+            queryset = self.get_queryset()
+        if not request.query_params:
+            queryset = queryset.none()
         serializer = self.get_serializer(queryset, many=True)
         return self.api_success_response(serializer.data)
 

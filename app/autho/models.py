@@ -110,3 +110,7 @@ class Customer(BaseModel):
     def new(cls, **kwargs):
         user = kwargs.pop('user', None)
         return cls.objects.create(user=user, **kwargs)
+
+    @property
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'

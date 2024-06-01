@@ -10,6 +10,10 @@ PRODUCT = PRODUCT_READ + [
     ("products-detail", "patch"),
 ]
 
+SEARCH_PRODUCT = [
+    ("products-all", "get"),
+]
+
 ORDER_READ = [
     ("orders-list", "get"),
     ("orders-detail", "get"),

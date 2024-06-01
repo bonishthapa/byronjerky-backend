@@ -139,3 +139,17 @@ class CustomerCreateSerializer(BaseModelSerializer):
             raise serializers.ValidationError({"email": 'User with this email already exists'})
         customer = Customer.new(user=user, **validated_data)
         return customer
+
+
+class CustomerSearchSerializer(BaseModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Customer
+        fields = [
+           "idx",
+           "name"
+        ]
+
+    def get_name(self, obj):
+        return obj.first_name + " " + obj.last_name

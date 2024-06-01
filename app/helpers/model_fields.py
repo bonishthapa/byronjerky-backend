@@ -16,6 +16,7 @@ class IDXPrefix(Enum):
     permission_permission = "PRM"
     permission_role = "ROL"
     stock_product = "PRD"
+    stock_order = "ORD"
     autho_customer = "CUS"
 
     @classmethod

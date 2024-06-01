@@ -17,3 +17,7 @@ CUSTOMER = CUSTOMER_READ + [
     ("customer-detail", "put"),
     ("customer-detail", "delete"),
 ]
+
+SEARCH_CUSTOMER = [
+    ("customer-all", "get"),
+]

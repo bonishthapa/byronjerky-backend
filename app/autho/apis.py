@@ -1,11 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 
-from helpers.api_mixins import BaseAPIMixin
+from helpers.api_mixins import BaseCRUDMixin
 from .models import Customer
-from .serializers import CustomerSerializer, CustomerCreateSerializer
+from .serializers import CustomerSerializer, CustomerCreateSerializer, CustomerSearchSerializer
 
 
-class CustomerViewset(BaseAPIMixin, ModelViewSet):
+class CustomerViewset(BaseCRUDMixin, ModelViewSet):
     queryset = Customer.objects.filter(is_deleted=False)
     serializer_class = CustomerSerializer
     search_fields = ("user__email", "mobile", "first_name", "last_name")
@@ -13,6 +13,8 @@ class CustomerViewset(BaseAPIMixin, ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return CustomerCreateSerializer
+        elif self.action == "all":
+            return CustomerSearchSerializer
         return CustomerSerializer
 
     def create(self, request, *args, **kwargs):
