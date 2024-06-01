@@ -7,6 +7,7 @@ from .serializers import (
     OrderListSerializer,
     ProductSearchSerializer,
     OrderCreateSerializer,
+    OrderDetailSerializer,
 )
 
 
@@ -29,6 +30,8 @@ class OrderViewSet(BaseCRUDMixin, ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'create':
             return OrderCreateSerializer
+        elif self.action == 'retrieve':
+            return OrderDetailSerializer
         return OrderListSerializer
 
     def create(self, request, *args, **kwargs):

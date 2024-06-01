@@ -83,9 +83,33 @@ class OrderCreateSerializer(BaseModelSerializer):
 
 
 class OrderDetailSerializer(BaseModelSerializer):
+    product = serializers.SerializerMethodField()
+    customer = serializers.SerializerMethodField()
+
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = [
+            'idx',
+            'product',
+            'order_date',
+            'production_date',
+            'packing_date',
+            'number_of_units',
+            'wet_weight',
+            'customer',
+        ]
+
+    def get_product(self, obj):
+        return {
+            'idx': obj.product.idx,
+            'name': obj.product.product_name
+        }
+
+    def get_customer(self, obj):
+        return {
+            'idx': obj.customer.idx,
+            'name': obj.customer.get_full_name
+        }
 
 
 class ProductSearchSerializer(BaseModelSerializer):
