@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate
+from django.db import IntegrityError
 
 from rest_framework import serializers
 
 from helpers.serializer_mixins import BaseModelSerializer
-
 from .models import User, Customer
 
 
@@ -98,3 +98,44 @@ class CustomerSerializer(BaseModelSerializer):
 
     def get_email(self, obj):
         return obj.user.email
+
+
+class CustomerCreateSerializer(BaseModelSerializer):
+    username = serializers.CharField(required=False)
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=False)
+
+    class Meta:
+        model = Customer
+        fields = [
+            "first_name",
+            "last_name",
+            "business_name",
+            "mobile",
+            "address",
+            "city",
+            "country",
+            "zip_code",
+            "lead_time",
+            "username",
+            "email",
+            "password"
+        ]
+
+    def create(self, validated_data):
+        username = validated_data.pop('username', None)
+        email = validated_data.pop('email', None)
+        password = validated_data.pop('password', "password")
+        if not username:
+            username = email
+        user_data = {
+            'email': email,
+            'username': username,
+            'password': password,
+        }
+        try:
+            user = User.objects.create(**user_data)
+        except IntegrityError:
+            raise serializers.ValidationError({"email": 'User with this email already exists'})
+        customer = Customer.new(user=user, **validated_data)
+        return customer

@@ -106,14 +106,7 @@ class Customer(BaseModel):
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
 
-    def new(self, **kwargs):
-        username = kwargs.get('username')
-        email = kwargs.get('email')
-        password = kwargs.get('password', "password")
-        if not username:
-            username = email
-        try:
-            user = User.objects.create(username=username, email=email, password=password)
-        except Exception:
-            return None
-        return self.objects.create(user=user, **kwargs)
+    @classmethod
+    def new(cls, **kwargs):
+        user = kwargs.pop('user', None)
+        return cls.objects.create(user=user, **kwargs)
