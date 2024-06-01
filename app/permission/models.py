@@ -8,6 +8,8 @@ from helpers.models import BaseModel
 @unique
 class UserRole(Enum):
     ADMIN = "Admin"
+    ANONYMOUS = "Anonymous"
+    STAFF = "Staff"
 
     @classmethod
     def get(cls, key):

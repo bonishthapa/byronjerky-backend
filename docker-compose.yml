@@ -22,7 +22,7 @@ services:
       - ./app:/app 
   db:
     container_name: byronjerky_db  # Custom container name
-    image: postgres:latest
+    image: postgres:16
     env_file:
       - .env  # Read environment variables from .env
     volumes:

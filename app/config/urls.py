@@ -40,6 +40,7 @@ versioned_urlpatterns = [
         "api/v1/autho/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
     ),
+    path("api/v1/stock/", include("stock.urls")),
 ]
 
 unversioned_patterns = [

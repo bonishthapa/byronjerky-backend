@@ -31,33 +31,9 @@ FILTER_FOR_DBFIELD_DEFAULTS[models.ForeignKey] = {
 class BaseFilterSet(FilterSet):
     FILTER_DEFAULTS = FILTER_FOR_DBFIELD_DEFAULTS
 
-    @property
-    def qs(self):
-        if not hasattr(self, "_qs"):
-            qs = self.queryset.all()
-            if self.is_bound:
-                # ensure form validation before filtering
-                errros = self.errors
-                if errros:
-                    qs = qs.none()
-                else:
-                    qs = self.filter_queryset(qs)
-            self._qs = qs
-        return self._qs
-
 
 class BaseDjangoFilterBackend(DjangoFilterBackend):
     filterset_base = BaseFilterSet
-
-    def filter_queryset(self, request, queryset, view):
-        filter_class = self.get_filter_class(view, queryset)
-        d = request.query_params.copy()
-        if d.get("search_type"):
-            d.update({d.get("search_type"): d.get("search_value")})
-        if filter_class:
-            return filter_class(d, queryset=queryset, request=request).qs
-
-        return queryset
 
 
 def filter_boolean(queryset, name, value):

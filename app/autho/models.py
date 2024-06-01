@@ -77,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         return permisssions
 
     def iss(self, role):
-        if type(role) == str:
+        if role is str:
             role = [role]
         role = set(role)
         roles = list(self.roles.values_list("name", flat=True))
@@ -85,3 +85,23 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     def send_email(self, subject, message, **kwargs):
         send_email.delay(subject, message, self.email, **kwargs)
+
+
+class Customer(BaseModel):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    business_name = models.CharField(max_length=255, blank=True, null=True)
+    lead_time = models.IntegerField(help_text='lead time in days')
+    mobile = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    zip_code = models.CharField(max_length=20, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer_profile')
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        verbose_name = 'Customer'
+        verbose_name_plural = 'Customers'

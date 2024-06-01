@@ -15,6 +15,7 @@ class IDXPrefix(Enum):
     core_fileupload = "FUP"
     permission_permission = "PRM"
     permission_role = "ROL"
+    stock_product = "PRD"
 
     @classmethod
     def get(cls, key):
