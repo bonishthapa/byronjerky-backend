@@ -14,7 +14,7 @@ CUSTOMER_READ = [
 
 CUSTOMER = CUSTOMER_READ + [
     ("customer-list", "post"),
-    ("customer-detail", "put"),
+    ("customer-detail", "patch"),
     ("customer-detail", "delete"),
 ]
 
