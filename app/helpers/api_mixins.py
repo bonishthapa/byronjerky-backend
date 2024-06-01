@@ -83,4 +83,4 @@ class BaseCRUDMixin(BaseListMixin):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
-        return self.api_success_response()
+        return self.api_success_response("Deleted successfully")
