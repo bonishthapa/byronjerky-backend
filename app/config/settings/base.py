@@ -71,6 +71,7 @@ CORS_ORIGIN_WHITELIST = (
     "http://192.168.1.94:8080",
     "http://127.0.0.1:8080",
     "http://127.0.0.1:8081",
+    "http://localhost:3000",
 )
 CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
 CORS_ALLOW_HEADERS = (

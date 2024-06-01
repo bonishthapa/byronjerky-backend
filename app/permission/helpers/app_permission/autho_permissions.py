@@ -6,3 +6,14 @@ USER_READ = [
 PROFILE = [
     ("user-profile", "get"),
 ]
+
+CUSTOMER_READ = [
+    ("customer-list", "get"),
+    ("customer-detail", "get"),
+]
+
+CUSTOMER = CUSTOMER_READ + [
+    ("customer-list", "post"),
+    ("customer-detail", "put"),
+    ("customer-detail", "delete"),
+]

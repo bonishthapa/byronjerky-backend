@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from helpers.serializer_mixins import BaseModelSerializer
 
-from .models import User
+from .models import User, Customer
 
 
 class UserSerializer(BaseModelSerializer):
@@ -70,3 +70,31 @@ class UserAuthTokenSerializer(serializers.Serializer):
 
         attrs["user"] = user
         return attrs
+
+
+class CustomerSerializer(BaseModelSerializer):
+    name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Customer
+        fields = [
+            "idx",
+            "first_name",
+            "last_name",
+            "business_name",
+            "mobile",
+            "address",
+            "city",
+            "country",
+            "zip_code",
+            "lead_time",
+            "name",
+            "email"
+        ]
+
+    def get_name(self, obj):
+        return obj.user.name
+
+    def get_email(self, obj):
+        return obj.user.email

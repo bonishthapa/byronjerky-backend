@@ -16,6 +16,7 @@ class IDXPrefix(Enum):
     permission_permission = "PRM"
     permission_role = "ROL"
     stock_product = "PRD"
+    autho_customer = "CUS"
 
     @classmethod
     def get(cls, key):

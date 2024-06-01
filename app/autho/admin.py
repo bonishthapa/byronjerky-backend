@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
+from .models import Customer
+
 User = get_user_model()
 
 
@@ -52,3 +54,9 @@ class UserAdmin(UserAdmin):
     filter_horizontal = ("roles",)
     search_fields = ("email",)
     ordering = ("email",)
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "mobile")
+    search_fields = ("first_name", "mobile")
