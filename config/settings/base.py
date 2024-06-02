@@ -251,13 +251,13 @@ SIMPLE_JWT = {
     "JTI_CLAIM": "jti",
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "redis_cache.RedisCache",
-        "LOCATION": [
-            f'{config("REDIS_HOST")}:{config("REDIS_PORT")}',
-        ],
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "redis_cache.RedisCache",
+#         "LOCATION": [
+#             f'{config("REDIS_HOST")}:{config("REDIS_PORT")}',
+#         ],
+#     }
+# }
 
 IS_STAGING_SERVER = False
