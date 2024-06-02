@@ -1,6 +1,4 @@
-# Build the project
-echo "Installing pip...."
-apt-get install python3-pip
+
 
 echo "Installing Django"
 python3.9 -m pip install Django
