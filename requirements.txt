@@ -74,8 +74,6 @@ pytz==2023.3.post1
 PyYAML==6.0.1
 redis==3.5.3
 requests==2.31.0
-ruamel.yaml==0.17.32
-ruamel.yaml.clib==0.2.7
 s3transfer==0.6.2
 shortuuid==1.0.11
 six==1.16.0
