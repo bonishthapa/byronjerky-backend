@@ -1,4 +1,5 @@
-
+echo "Unistalling psycopg"
+python3 -m pip uninstall psycopg2
 
 echo "Building project...."
 python3 -m pip install -r requirements.txt
