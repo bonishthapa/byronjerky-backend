@@ -34,6 +34,9 @@ class OrderListSerializer(BaseModelSerializer):
             'number_of_units',
             'wet_weight',
             'customer',
+            'status',
+            'created_on',
+            'is_archived'
         ]
 
 
@@ -48,6 +51,8 @@ class OrderCreateSerializer(BaseModelSerializer):
             'number_of_units',
             'wet_weight',
             'customer',
+            'status',
+            'is_archived',
         ]
 
     def create(self, validated_data):
@@ -72,6 +77,7 @@ class OrderCreateSerializer(BaseModelSerializer):
         except Exception as e:
             raise serializers.ValidationError(str(e))
 
+        validated_data['created_by'] = self.context['request'].user
         order = Order.new(
             packing_date=packing_date,
             production_date=production_date,
@@ -85,6 +91,7 @@ class OrderCreateSerializer(BaseModelSerializer):
 class OrderDetailSerializer(BaseModelSerializer):
     product = serializers.SerializerMethodField()
     customer = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
@@ -97,6 +104,10 @@ class OrderDetailSerializer(BaseModelSerializer):
             'number_of_units',
             'wet_weight',
             'customer',
+            'status',
+            'is_archived',
+            'created_by',
+            'created_on',
         ]
 
     def get_product(self, obj):
@@ -110,6 +121,9 @@ class OrderDetailSerializer(BaseModelSerializer):
             'idx': obj.customer.idx,
             'name': obj.customer.get_full_name
         }
+
+    def get_created_by(self, obj):
+        return obj.created_by.get_short_info()
 
 
 class ProductSearchSerializer(BaseModelSerializer):
