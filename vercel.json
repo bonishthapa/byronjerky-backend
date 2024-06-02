@@ -10,7 +10,8 @@
           "PIP_DISABLE_PIP_VERSION_CHECK": "true",
           "PYTHONUNBUFFERED": "true"
         },
-        "buildCommand": "apt-get update && apt-get install -y build-essential && pip install -r requirements.txt"
+        "buildCommand": "apt-get update && apt-get install -y build-essential && pip install -U pip setuptools wheel ruamel.yaml.clib==0.2.6
+&& pip install -r requirements.txt"
       }
     }
   ]
