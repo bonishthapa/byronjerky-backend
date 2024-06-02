@@ -1,14 +1,16 @@
 from rest_framework import permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 
-from helpers.api_mixins import BaseAPIMixin
+from helpers.api_mixins import BaseAPIMixin, BaseCRUDMixin
 from helpers.documentation import api_document
 
 from .filters import UserFilter
-from .models import User
+from .models import User, UserRole
 from .serializers import ReadOnlyUserSerializer, UserAuthTokenSerializer, UserSerializer
+from permission.models import Role
 
 
 @api_document(names=["post"], tags=["Authentication"])
@@ -40,7 +42,7 @@ class UserProfileAPI(BaseAPIMixin, APIView):
 
 
 @api_document(names=["list", "retrieve"], tags=["Filtering"])
-class UserListViewset(BaseAPIMixin, ReadOnlyModelViewSet):
+class UserListViewset(BaseCRUDMixin, ModelViewSet):
     queryset = User.objects.filter(is_deleted=False)
     serializer_class = ReadOnlyUserSerializer
     pagination_class = None
@@ -53,3 +55,15 @@ class UserListViewset(BaseAPIMixin, ReadOnlyModelViewSet):
         if user.is_staff:
             return queryset
         return queryset.filter(id=user.id)
+
+    @action(detail=False, methods=["GET"], url_path="staff-list")
+    def staff_list(self, request):
+        roles = Role.objects.filter(name__in=[UserRole.ADMIN.value, UserRole.STAFF.value])
+        queryset = self.get_queryset().filter(roles__in=roles)
+        filtered_queryset = self.filter_queryset(queryset)
+        page = self.paginate_queryset(filtered_queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return self.api_success_response(serializer.data)
