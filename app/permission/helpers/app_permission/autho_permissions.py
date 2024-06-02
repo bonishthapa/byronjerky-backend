@@ -1,6 +1,13 @@
 USER_READ = [
     ("users-list", "get"),
     ("users-detail", "get"),
+    ("users-staff-list", "get"),
+]
+
+USER = USER_READ + [
+    ("users-list", "post"),
+    ("users-detail", "patch"),
+    ("users-detail", "delete"),
 ]
 
 PROFILE = [

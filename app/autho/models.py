@@ -87,6 +87,13 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     def send_email(self, subject, message, **kwargs):
         send_email.delay(subject, message, self.email, **kwargs)
 
+    def get_short_info(self):
+        return {
+            'idx': self.idx,
+            'username': self.username,
+            'email': self.email,
+        }
+
 
 class Customer(BaseModel):
     first_name = models.CharField(max_length=100)
