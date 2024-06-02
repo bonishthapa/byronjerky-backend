@@ -1,4 +1,7 @@
 # Build the project
+echo "Installing pip...."
+python3.9 -m get-pip.py
+
 echo "Installing Django"
 python3.9 -m pip install Django
 
