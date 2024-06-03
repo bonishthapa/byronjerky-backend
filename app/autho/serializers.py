@@ -30,6 +30,8 @@ class UserSerializer(BaseModelSerializer):
 
 
 class ReadOnlyUserSerializer(BaseModelSerializer):
+    roles = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = (
@@ -39,6 +41,9 @@ class ReadOnlyUserSerializer(BaseModelSerializer):
             "email",
             "roles",
         )
+
+    def get_roles(self, obj):
+        return obj.get_roles()
 
 
 class UserCreateSerializer(BaseModelSerializer):
@@ -51,6 +56,15 @@ class UserCreateSerializer(BaseModelSerializer):
             "password",
             "roles",
         )
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', "password")
+        roles = validated_data.pop('roles', [])
+        user = User.new(**validated_data)
+        user.roles.set(roles)
+        user.set_password(password)
+        user.save()
+        return user
 
 
 class UserAuthTokenSerializer(serializers.Serializer):

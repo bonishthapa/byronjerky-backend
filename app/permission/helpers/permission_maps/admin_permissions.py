@@ -1,6 +1,7 @@
 from permission.helpers.app_permission.autho_permissions import PROFILE, USER_READ, CUSTOMER, SEARCH_CUSTOMER, USER
 from permission.helpers.app_permission.core_permissions import PRIVATE_FILE, PUBLIC_FILE
 from permission.helpers.app_permission.stock_permissions import PRODUCT, ORDER, SEARCH_PRODUCT
+from permission.helpers.app_permission.permission_permissions import ROLE_READ
 
 GENERIC_ADMIN_API = [
     PROFILE,
@@ -13,6 +14,7 @@ GENERIC_ADMIN_API = [
     SEARCH_CUSTOMER,
     SEARCH_PRODUCT,
     USER,
+    ROLE_READ,
 ]
 
 
