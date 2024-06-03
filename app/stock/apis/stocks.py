@@ -9,6 +9,7 @@ from stock.serializers import (
     OrderCreateSerializer,
     OrderDetailSerializer,
 )
+from stock.filters import OrderFilter
 
 
 class ProductViewSet(BaseCRUDMixin, ModelViewSet):
@@ -25,7 +26,8 @@ class ProductViewSet(BaseCRUDMixin, ModelViewSet):
 class OrderViewSet(BaseCRUDMixin, ModelViewSet):
     queryset = Order.objects.filter(is_deleted=False).order_by('-created_date')
     serializer_class = OrderListSerializer
-    search_fields = ['product__product_name']
+    search_fields = ['product__product_name', 'customer__first_name', 'customer__last_name']
+    filterset_class = OrderFilter
 
     def get_serializer_class(self):
         if self.action == 'create':
