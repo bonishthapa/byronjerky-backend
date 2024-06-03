@@ -132,3 +132,23 @@ class ProductSearchSerializer(BaseModelSerializer):
     class Meta:
         model = Product
         fields = ['idx', 'name']
+
+
+class DashboardOrderSerializer(BaseModelSerializer):
+    product = serializers.CharField(source='product.product_name')
+    customer = serializers.CharField(source='customer.get_full_name')
+
+    class Meta:
+        model = Order
+        fields = [
+            'product',
+            'order_date',
+            'production_date',
+            'packing_date',
+            'number_of_units',
+            'wet_weight',
+            'customer',
+            'status',
+            'created_on',
+            'is_archived'
+        ]
