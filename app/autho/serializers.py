@@ -41,6 +41,18 @@ class ReadOnlyUserSerializer(BaseModelSerializer):
         )
 
 
+class UserCreateSerializer(BaseModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "name",
+            "username",
+            "email",
+            "password",
+            "roles",
+        )
+
+
 class UserAuthTokenSerializer(serializers.Serializer):
     username = serializers.CharField(label="Username", write_only=True, required=True)
     password = serializers.CharField(

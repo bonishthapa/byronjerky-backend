@@ -9,7 +9,7 @@ from helpers.documentation import api_document
 
 from .filters import UserFilter
 from .models import User, UserRole
-from .serializers import ReadOnlyUserSerializer, UserAuthTokenSerializer, UserSerializer
+from .serializers import ReadOnlyUserSerializer, UserAuthTokenSerializer, UserSerializer, UserCreateSerializer
 from permission.models import Role
 
 
@@ -55,6 +55,11 @@ class UserListViewset(BaseCRUDMixin, ModelViewSet):
         if user.is_staff:
             return queryset
         return queryset.filter(id=user.id)
+
+    def get_serializer_class(self):
+        if self.action in ["create", "update", "partial_update"]:
+            return UserCreateSerializer
+        return ReadOnlyUserSerializer
 
     @action(detail=False, methods=["GET"], url_path="staff-list")
     def staff_list(self, request):
