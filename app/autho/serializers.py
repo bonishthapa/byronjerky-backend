@@ -37,6 +37,7 @@ class ReadOnlyUserSerializer(BaseModelSerializer):
             "name",
             "username",
             "email",
+            "roles",
         )
 
 
